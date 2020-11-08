@@ -4,6 +4,8 @@ import com.vytrack.utils.Driver;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 
 import java.util.concurrent.TimeUnit;
 
@@ -38,8 +40,10 @@ public class Hooks {
     @After
     public void tearDown(Scenario scenario) throws InterruptedException {
 
-        /*byte[] screenshoot = ((TakesScreenshot)Driver.getDriver()).getScreenshotAs(OutputType.BYTES);
-        scenario.attach(screenshoot,"image/PNG", scenario.getName());*/
+        if(scenario.isFailed()) {
+            byte[] screenshoot = ((TakesScreenshot) Driver.getDriver()).getScreenshotAs(OutputType.BYTES);
+            scenario.attach(screenshoot, "image/PNG", scenario.getName());
+        }
         Driver.closeDriver();
         System.out.println(":::(^_^)End of test execution(*_*):::");
 
