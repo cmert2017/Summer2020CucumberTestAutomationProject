@@ -21,7 +21,7 @@ import org.junit.runner.RunWith;
        // tags = "@scenario_1"
          //tags = "@scenario_1 or @scenario_2"
        // tags = " @createCar"
-        tags = "@positiveLogin"
+        tags = "@smoke"
 
 )
 public class CucumberRunner {
