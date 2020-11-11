@@ -23,6 +23,15 @@ public class Driver {
     public static WebDriver getDriver(){
         if(driver ==null){
             String browser = ConfigurationReader.getProperty("browser");
+
+            //jenkins  command: test -Dccucumber.filter.tags="@smoke" -Dbrowser = "chrome"
+            //-Dpropert then read it
+            //
+            if(System.getProperty("browser")!=null){
+                System.out.println("Browser type changed to : " + System.getProperty("browser"));
+                browser = System.getProperty("browser");
+            }
+
             switch (browser){
                 case "chrome":
                     WebDriverManager.chromedriver().setup();
@@ -39,6 +48,17 @@ public class Driver {
                     desiredCapabilities.setBrowserName("chrome");
                     URL gridUrl = new URL("http://3.82.5.142:4444/wd/hub");
                     driver = new RemoteWebDriver(gridUrl,desiredCapabilities);
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case "remote-firefox":
+                    try {
+                        ChromeOptions  chromeOptions = new ChromeOptions();
+                        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+                        desiredCapabilities.setBrowserName("firefox");
+                        URL gridUrl = new URL("http://3.82.5.142:4444/wd/hub");
+                        driver = new RemoteWebDriver(gridUrl,desiredCapabilities);
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
